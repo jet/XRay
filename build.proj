@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <Name>XRay</Name>
+    <BuildNumber Condition="'$(BN)' != ''">$([System.String]::Format('{0:0000000}',$([MSBuild]::Add($(BN), 0))))</BuildNumber>
+    <Suffix Condition="'$(PR)' != ''">--version-suffix pr$(PR)-$(BuildNumber)</Suffix>
+    <Suffix Condition="'$(PR)' == ''">--version-suffix CI$(BuildNumber)</Suffix>    
+    <Suffix Condition="'$(BuildNumber)' == ''"></Suffix>
+    <RepoRootDir>$([System.IO.Path]::GetFullPath("$(MSBuildThisFileDirectory)"))</RepoRootDir>
+  </PropertyGroup>
+  <Target Name="Build">
+    <Exec IgnoreStandardErrorWarningFormat="true" Command="dotnet build src/$(Name) --configuration Release $(Suffix)" WorkingDirectory="$(RepoRootDir)" />
+  </Target>
+  <Target Name="Pack">
+    <Exec IgnoreStandardErrorWarningFormat="true" Command="dotnet pack src/$(Name) --configuration Release -o $(RepoRootDir)bin $(Suffix)" WorkingDirectory="$(RepoRootDir)" />
+  </Target>
+  <Target Name="Test">
+    <Exec IgnoreStandardErrorWarningFormat="true" Command='dotnet test tests/$(Name).Tests --configuration Release' WorkingDirectory="$(RepoRootDir)" />
+  </Target>
+  <Target Name="VSTest" DependsOnTargets="Test" />
+</Project>
