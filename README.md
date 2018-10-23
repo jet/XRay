@@ -13,6 +13,6 @@ Telemetry events are emitted as part of the execution of operations, also called
 Operations are related by propagating a trace id across service boundaries, and the collection of events sharing a trace id form a trace.
 
 In addition to the trace and operation, telemetry events are associated with user defined tags.
-XRay indexes telemetry events, allowing lookup by trace id, operation name, and tags.
+XRay indexes telemetry events, allowing lookup by trace id, operation name and tags.
 
 In effect, queries on telemetry events can be used to explore dependencies as well as timing information of distributed traces.
