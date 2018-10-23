@@ -5,7 +5,7 @@ jobs:
     vmImage: 'vs2017-win2016'
   steps:
   - powershell: |
-      $buildId = $env:BUILD_BUILDNUMBER.PadLeft(5, '0');
+      $buildId = $env:BUILD_BUILDNUMBER.PadLeft(7, '0');
       $versionSuffixPR = "PR$($env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)-$buildId";
       $branchName = "$env:BUILD_SOURCEBRANCHNAME".Replace("_","");
       $versionSuffixBRANCH = "$branchName-$buildId";
