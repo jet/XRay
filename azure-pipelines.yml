@@ -38,6 +38,7 @@ jobs:
       versioningScheme: byEnvVar
       versionEnvVar: Version
       pathtoPublish: 'bin/nupkg'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
