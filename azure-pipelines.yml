@@ -6,9 +6,9 @@ jobs:
   steps:
   - powershell: |
       $buildId = $env:BUILD_BUILDNUMBER.PadLeft(7, '0');
-      $versionSuffixPR = "PR$($env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)-$buildId";
+      $versionSuffixPR = "ci-$buildId-pr$($env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER)";
       $branchName = "$env:BUILD_SOURCEBRANCHNAME".Replace("_","");
-      $versionSuffixBRANCH = "$branchName-$buildId";
+      $versionSuffixBRANCH = "ci-$buildId";
       $isTag = "$env:BUILD_SOURCEBRANCH".StartsWith('refs/tags/');
       $isPR = "$env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER" -ne ""
       $versionSuffix = if ($isTag) { "" } else { if ($isPR) { $versionSuffixPR } else { $versionSuffixBRANCH } };
