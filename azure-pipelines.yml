@@ -36,7 +36,8 @@ jobs:
       nuGetFeedType: external
       publishFeedCredentials: 'Jet-MyGet'
       versioningScheme: byEnvVar
-      versionEnvVar: Version      
+      versionEnvVar: Version
+      pathtoPublish: 'bin/nupkg'
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
