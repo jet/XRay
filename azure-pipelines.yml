@@ -37,7 +37,7 @@ jobs:
       publishFeedCredentials: 'Jet-MyGet'
       versioningScheme: byEnvVar
       versionEnvVar: Version
-      packagesToPush: 'bin/nupkg/*.nupkg'
+      packagesToPush: 'bin/nupkg/*.nupkg;bin/nupkg/*.symbols.nupkg'
 - job: Linux
   pool:
     vmImage: 'ubuntu-16.04'
