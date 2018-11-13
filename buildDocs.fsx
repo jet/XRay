@@ -1043,14 +1043,14 @@ let executeProcess (exe, cmdline, workingDir) =
             CreateNoWindow = true,
             WorkingDirectory = defaultArg workingDir "")
     let p = System.Diagnostics.Process.Start psi
-    let output = new System.Text.StringBuilder ()
-    let error  = new System.Text.StringBuilder ()
-    p.OutputDataReceived.Add (fun args -> output.Append args.Data |> ignore)
-    p.ErrorDataReceived.Add  (fun args -> error.Append  args.Data |> ignore)
+    let output = new ResizeArray<_> ()
+    let error  = new ResizeArray<_> ()
+    p.OutputDataReceived.Add (fun args -> output.Add args.Data |> ignore)
+    p.ErrorDataReceived.Add  (fun args -> error.Add  args.Data |> ignore)
     p.BeginErrorReadLine ()
     p.BeginOutputReadLine ()
     p.WaitForExit ()
-    { ExitCode = p.ExitCode; stdout = string output; stderr = string error }
+    { ExitCode = p.ExitCode; stdout = String.toLines output; stderr = String.toLines error }
 
 
 
@@ -1062,10 +1062,15 @@ module FSFormatting =
     let mutable toolPath = lazy ( Tools.findToolInSubPath "fsformatting.exe" (Directory.GetCurrentDirectory() @@ "tools" @@ "FSharp.Formatting.CommandTool" @@ "tools") )
 
     /// Runs fsformatting.exe with the given command in the given repository directory.
-    let private run toolPath command = 
+    let private run toolPath command =
         let result = executeProcess (toolPath, command, None)
         if 0 <> result.ExitCode
-        then failwithf "FSharp.Formatting %s failed." command
+        then
+            failwithf
+                "FSharp.Formatting command %s failed with: %s" 
+                command
+                // workaround (fsformatting doesn't output errors to stderr)
+                (if System.String.IsNullOrEmpty result.stderr then result.stdout else result.stderr)
 
     type LiterateArguments =
         { ToolPath : string Lazy
@@ -1119,7 +1124,8 @@ module FSFormatting =
           LayoutRoots = []
           LibDirs = [] }
 
-    let createDocsForDlls (p:MetadataFormatArguments->MetadataFormatArguments) dllFiles = 
+    let createDocsForDlls (p:MetadataFormatArguments->MetadataFormatArguments) dllFiles =
+        if Seq.isEmpty dllFiles then failwith "Failure: No dll files to process"
         let arguments = p defaultMetadataFormatArguments
         let outputDir = arguments.OutputDirectory
         let projectParameters = arguments.ProjectParameters
@@ -1287,6 +1293,17 @@ Target.create "CleanDocs" (fun _ ->
 
 
 // --------------------------------------------------------------------------------------
+// Build project
+
+Target.create "Build" (fun _ ->
+    DotNet.runSimpleDotnetCommand 
+        __SOURCE_DIRECTORY__ 
+        ("pack build.proj")
+        |> Trace.trace
+)
+
+
+// --------------------------------------------------------------------------------------
 // Restore FSharp.Formatting
 
 let fsFormattingVersion = "3.0.0-beta11"
@@ -1296,7 +1313,7 @@ Directory.ensure tempDocsDir
 File.WriteAllText(tempDocsDir @@ "docs.proj", """
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net45</TargetFramework>
     <RestorePackagesPath>packages</RestorePackagesPath>
   </PropertyGroup>
 <ItemGroup>
@@ -1312,12 +1329,12 @@ File.WriteAllText(tempDocsDir @@ "docs.proj", """
 
 DotNet.runSimpleDotnetCommand 
     tempDocsDir 
-    ("add package FSharp.Formatting -s https://ci.appveyor.com/nuget/fsharp-formatting -v " + fsFormattingVersion) //"restore doc-packages-ref.proj"
+    ("add package FSharp.Formatting -s https://ci.appveyor.com/nuget/fsharp-formatting -v " + fsFormattingVersion)
     |> Trace.trace
 
 DotNet.runSimpleDotnetCommand
     tempDocsDir
-    ("add package FSharp.Formatting.CommandTool -s https://ci.appveyor.com/nuget/fsharp-formatting -v " + fsFormattingVersion) //"restore doc-packages-ref.proj"
+    ("add package FSharp.Formatting.CommandTool -s https://ci.appveyor.com/nuget/fsharp-formatting -v " + fsFormattingVersion)
     |> Trace.trace
 
 
@@ -1325,7 +1342,7 @@ DotNet.runSimpleDotnetCommand
 // Generate the documentation
 
 // Paths with template/source/output locations
-let bin        = __SOURCE_DIRECTORY__ @@ "bin"
+let bin        = __SOURCE_DIRECTORY__ @@ "src"
 let content    = __SOURCE_DIRECTORY__ @@ "docsrc/content"
 let output     = __SOURCE_DIRECTORY__ @@ "docs"
 let files      = __SOURCE_DIRECTORY__ @@ "docsrc/files"
@@ -1353,8 +1370,9 @@ Target.create "ReferenceDocs" (fun _ ->
             DirectoryInfo.getSubDirectories <| DirectoryInfo bin
             |> Array.collect (fun d ->
                 let (name, d) =
-                    let net45Bin = DirectoryInfo.getSubDirectories d |> Array.filter (fun x -> x.FullName.ToLower().Contains("net45"))
-                    let net47Bin = DirectoryInfo.getSubDirectories d |> Array.filter (fun x -> x.FullName.ToLower().Contains("net47"))
+                    let net45Bin = DirectoryInfo.getSubDirectories (DirectoryInfo.ofPath (d.FullName @@ "bin" @@ "Release")) |> Array.filter (fun x -> x.FullName.ToLower().Contains("net45"))
+                    let net47Bin = DirectoryInfo.getSubDirectories (DirectoryInfo.ofPath (d.FullName @@ "bin" @@ "Release")) |> Array.filter (fun x -> x.FullName.ToLower().Contains("net47"))
+                    if net45Bin.Length = 0 && net47Bin.Length = 0 then failwith "Failure: No binaries found."
                     if net45Bin.Length > 0 then d.Name, net45Bin.[0]
                     else d.Name, net47Bin.[0]
                 d.GetFiles ()
