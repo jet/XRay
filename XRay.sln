@@ -7,6 +7,18 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "XRay", "src\XRay\XRay.fspro
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "XRay.Tests", "tests\XRay.Tests\XRay.Tests.fsproj", "{83EB1EBD-A942-4A7D-85CF-831309871506}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{A6A6AF7D-D6E3-442D-9B1E-58CC91879BE1}"
+	ProjectSection(SolutionItems) = preProject
+		docsrc\content\index.fsx = docsrc\content\index.fsx
+		docsrc\content\tutorial.fsx = docsrc\content\tutorial.fsx
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{BF60BC93-E09B-4E5F-9D85-95A519479D54}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		RELEASE_NOTES.md = RELEASE_NOTES.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
