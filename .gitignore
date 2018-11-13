@@ -11,6 +11,8 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+*.dll.mdb
+*.exe.mdb
 
 # Build results
 [Dd]ebug/
@@ -20,6 +22,7 @@
 x64/
 x86/
 bld/
+build/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
@@ -138,6 +141,7 @@ _TeamCity*
 
 # NCrunch
 _NCrunch_*
+*.ncrunch*
 .*crunch*.local.xml
 nCrunchTemp_*
 
@@ -210,8 +214,14 @@ _pkginfo.txt
 # but keep track of directories ending in .cache
 !*.[Cc]ache/
 
+# VSCode
+.vscode/
+
 # Others
+sql/
+*.Cache
 ClientBin/
+[Ss]tyle[Cc]op.*
 ~$*
 *~
 *.dbmdl
@@ -243,6 +253,8 @@ ServiceFabricBackup/
 *.rptproj.bak
 
 # SQL Server files
+App_Data/*.mdf
+App_Data/*.ldf
 *.mdf
 *.ldf
 *.ndf
@@ -328,3 +340,44 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+
+# =========================
+# Windows detritus
+# =========================
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Mac desktop service store files
+.DS_Store
+
+# ===================================================
+# Exclude F# project specific directories and files
+# ===================================================
+
+# NuGet Packages Directory
+packages/
+
+# Test results produced by build
+TestResults.xml
+
+# Generated documentation folder
+docs/
+
+# Temp folder used for publishing docs
+temp/
+
+# Nuget outputs
+release.cmd
+release.sh
+localpackages/
+*.orig
+docsrc/content/license.md
+docsrc/content/release-notes.md
