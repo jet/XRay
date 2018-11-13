@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>JsonCtx<'JsonValue> - XRay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="jet.com"/>
+
+    <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+    <link type="text/css" rel="stylesheet" href="/XRay/content/style.css" />
+    <script type="text/javascript" src="/XRay/content/tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="http://fsharp.org">fsharp.org</a></li>
+          <li><a href="https://github.com/jet/XRay">github page</a></li>
+        </ul>
+        <h3 class="muted"><a href="/XRay/index.html">XRay</a></h3>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="span9" id="main">
+          
+
+
+
+<h1>JsonCtx<'JsonValue></h1>
+<p>
+
+    <span>Namespace: XRay</span><br />
+        <span>Parent Module: <a href="xray-codec.html">Codec</a></span><br />
+    </p>
+<div class="xmldoc">
+</div>
+  <h3>Constructors</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Constructor</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '150', 150)" onmouseover="showTip(event, '150', 150)">
+            new(...)
+          </code>
+          <div class="tip" id="150">
+            <strong>Signature:</strong> (tryGetProperty:(string -&gt; &#39;JsonValue -&gt; &#39;JsonValue option) * setField:(string -&gt; &#39;JsonValue -&gt; &#39;JsonValue -&gt; &#39;JsonValue) * jnull:&#39;JsonValue * ctxCodec:Codec&lt;&#39;JsonValue,TraceContext&gt;) -&gt; JsonCtx&lt;&#39;JsonValue&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jet/XRay/tree/master/src/XRay/Codec.fs#L111-111" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          
+              <p>CompiledName: <code>.ctor</code></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>Instance members</h3>
+  <table class="table table-bordered member-list">
+    <thead>
+      <tr><td>Instance member</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '151', 151)" onmouseover="showTip(event, '151', 151)">
+            embeddedFieldDefault(codec)
+          </code>
+          <div class="tip" id="151">
+            <strong>Signature:</strong> codec:Codec&lt;&#39;JsonValue,&#39;?8104&gt; -&gt; Codec&lt;&#39;JsonValue,(&#39;?8104 * TraceContext)&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jet/XRay/tree/master/src/XRay/Codec.fs#L125-125" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>Creates a codec for a pair of a type and TraceContext using a type's existing Json codec.</p>
+
+
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '152', 152)" onmouseover="showTip(event, '152', 152)">
+            TraceContext
+          </code>
+          <div class="tip" id="152">
+            <strong>Signature:</strong> Codec&lt;&#39;JsonValue,TraceContext&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jet/XRay/tree/master/src/XRay/Codec.fs#L115-115" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>A JSON codec for the TraceContext.</p>
+
+
+              <p>CompiledName: <code>get_TraceContext</code></p>
+        </td>
+      </tr>
+      <tr>
+        <td class="member-name">
+
+          <code onmouseout="hideTip(event, '153', 153)" onmouseover="showTip(event, '153', 153)">
+            TraceContextWithFallback(provider)
+          </code>
+          <div class="tip" id="153">
+            <strong>Signature:</strong> (provider:(unit -&gt; TraceContext)) -&gt; Codec&lt;&#39;JsonValue,TraceContext&gt;<br />
+                                  </div>
+        </td>
+        <td class="xmldoc">
+                      <a href="https://github.com/jet/XRay/tree/master/src/XRay/Codec.fs#L118-118" class="github-link">
+              <img src="../content/img/github.png" class="normal" />
+              <img src="../content/img/github-blue.png" class="hover" />
+            </a>
+          <p>JSON Codec that calls a provider for a new value when decoder fails</p>
+
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+        </div>
+        <div class="span3">
+          <img src="/XRay/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
+            <li class="nav-header">XRay</li>
+            <li><a href="/XRay/index.html">Home page</a></li>
+            <li class="divider"></li>
+            <li><a href="http://nuget.org/packages/XRay">Get Library via NuGet</a></li>
+            <li><a href="https://github.com/jet/XRay">Source Code on GitHub</a></li>
+            <li><a href="/XRay/license.html">License</a></li>
+            <li><a href="/XRay/release-notes.html">Release Notes</a></li>
+            
+            <li class="nav-header">Getting started</li>
+            <li><a href="/XRay/tutorial.html">Sample tutorial</a></li>
+
+            <li class="nav-header">Documentation</li>
+            <li><a href="/XRay/reference/index.html">API Reference</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <a href="https://github.com/jet/XRay"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"/></a>
+  </body>
+  </html>
